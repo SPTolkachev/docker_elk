@@ -1,0 +1,41 @@
+version: '2.2'
+
+services:
+  elasticsearch:
+    container_name: elk_elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    ports:
+      - "${ES_PORT}:9200"
+    environment:
+      - discovery.type=single-node
+    mem_limit: ${MEM_LIMIT}
+    volumes:
+      - ./data/elasticsearch:/usr/share/elasticsearch/data
+      - ./logs/elasticsearch:/usr/share/elasticsearch/logs
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:${STACK_VERSION}
+    container_name: elk_logstash
+    depends_on:
+      - elasticsearch
+    ports:
+      - "${LOGSTASH_PORT}:5046"
+    environment:
+      - ELASTIC_HOST="elasticsearch:${ES_PORT}"
+    volumes:
+      - ./config/logstash/config/jvm.options:/usr/share/logstash/config/jvm.options
+      - ./config/logstash/config/log4j2.properties:/usr/share/logstash/config/log4j2.properties
+      - ./config/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./config/logstash/config/logstash-sample.conf:/usr/share/logstash/config/logstash-sample.conf
+      - ./config/logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
+      - ./config/logstash/config/startup.options:/usr/share/logstash/config/startup.options
+      - ./config/logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./logs/logstash:/var/log/logstash
+
+  kibana:
+    container_name: elk_kibana
+    image: docker.elastic.co/kibana/kibana:${STACK_VERSION}
+    depends_on:
+      - elasticsearch
+    ports:
+      - "${KIBANA_PORT}:5601"
