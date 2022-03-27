@@ -19,28 +19,34 @@ cp docker-compose.yml.example docker-compose.yml
 ```
 
 4. Create dirs.
-- Create dir `~/data`:
+- Create dir `~/data/`:
 ```shell
 ~$ mkdir data
-~$ sudo chmod 777 data/
+~$ sudo chmod 777 data
 ```
 
-- Create dir `~/logs`:
+- Create dir `~/data/elasticsearch/`:
+```shell
+~$ mkdir data/elasticsearch
+~$ sudo chmod 777 data/elasticsearch
+```
+
+- Create dir `~/logs/`:
 ```shell
 ~$ mkdir logs
-~$ sudo chmod 777 logs/
+~$ sudo chmod 777 logs
 ```
 
 - Create dir `~/logs/elasticsearch/`:
 ```shell
-~$ mkdir logs/elasticsearch/
-~$ sudo chmod 777 logs/elasticsearch/
+~$ mkdir logs/elasticsearch
+~$ sudo chmod 777 logs/elasticsearch
 ```
 
 - Create dir `~/logs/logstash/`:
 ```shell
-~$ mkdir logs/logstash/
-~$ sudo chmod 777 logs/logstash/
+~$ mkdir logs/logstash
+~$ sudo chmod 777 logs/logstash
 ```
 
 5. Pull docker image.
